@@ -36,7 +36,9 @@ def summarize_changes(files):
     return summary
 
 def generate_report():
-
+    cwd = Path.cwd()
+    log_dir = cwd / 'logs'
+    log_dir.mkdir(exist_ok=True)
     import datetime
     def run_git(cmd):
         return subprocess.run(cmd, capture_output=True, text=True).stdout.strip()
