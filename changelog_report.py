@@ -76,8 +76,9 @@ def generate_report():
     changelog.insert(4, f"**Total de arquivos alterados:** {len(files)}\n")
     changelog.insert(5, '\n'.join(table) + '\n')
 
-    # Markdown formatado
-    Path(log_dir / 'changelog.md').write_text('\n'.join(changelog), encoding='utf-8')
+    # Markdown formatado com timestamp
+    changelog_filename = f"changelog_{now.replace('-', '').replace(':', '').replace(' ', '_')}.md"
+    Path(log_dir / changelog_filename).write_text('\n'.join(changelog), encoding='utf-8')
 
     # Mensagem de commit descritiva
     commit_message = "; ".join(commit_lines)
