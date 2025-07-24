@@ -1,6 +1,15 @@
+
 # 📄 changelog-report
 
-Ferramenta leve em Python para gerar relatórios de alterações com base nos arquivos *staged* no Git.
+**changelog-report** é uma ferramenta leve e automatizada para gerar relatórios de alterações de código a partir dos arquivos *staged* do Git, com suporte a resumo automático por IA local (T5/flan-t5-small) e interface gráfica opcional.
+
+Ideal para equipes, projetos open source ou uso individual, o changelog-report facilita a documentação de mudanças, criação de mensagens de commit e auditoria de código — tudo sem depender de internet ou serviços externos.
+
+**Destaques:**
+- Geração de changelog detalhado e resumo de commit prontos para uso
+- IA local para sumarização automática das alterações (sem custo, sem nuvem)
+- Interface gráfica (Tkinter) e scripts de execução rápida para todos os sistemas
+- Totalmente offline, seguro e fácil de integrar a qualquer fluxo Git
 
 ---
 
@@ -17,23 +26,33 @@ Também conta com uma **interface gráfica (GUI)** opcional, ativada via `--gui`
 
 ## 🚀 Como Usar
 
-### 🔧 Modo CLI (padrão)
+
+### 🔧 Execução rápida (recomendado)
+
+No Windows:
+```bat
+run-changelog.bat
+```
+No Linux/macOS:
+```sh
+./run-changelog.sh
+```
+Esses scripts ativam o ambiente virtual automaticamente e executam o relatório sem comandos manuais.
+
+### Modo CLI tradicional
 
 ```bash
 git add .
 python .
 ```
-
-Isso irá gerar os relatórios na pasta `logs/`.
+Gera os relatórios na pasta `logs/`.
 
 ### 🖼 Modo GUI (opcional)
 
 ```bash
 python . --gui
 ```
-
 A GUI inclui:
-
 - Botão "Gerar relatório"
 - Exibição do resumo do commit
 - Acesso rápido à pasta de logs
@@ -55,14 +74,16 @@ changelog-report/
 
 ---
 
+
 ## 💠 Funcionalidades
 
-✅ Detecta arquivos modificados com `git diff --cached`  
-✅ Mostra diffs apenas de arquivos de texto legíveis  
-✅ Identifica arquivos binários e apenas os lista  
-✅ Ignora arquivos do `.gitignore`  
-✅ Interface gráfica opcional com Tkinter (leve e nativa)  
-✅ Não usa inteligência artificial — ideal para projetos offline/locais
+✅ Detecta arquivos modificados com `git diff --cached`
+✅ Mostra diffs apenas de arquivos de texto legíveis
+✅ Identifica arquivos binários e apenas os lista
+✅ Ignora arquivos do `.gitignore`
+✅ Interface gráfica opcional com Tkinter (leve e nativa)
+✅ **Resumo automático com IA (T5/flan-t5-small local, sem internet)**
+✅ Scripts de execução rápida para Windows e Linux/macOS
 
 ---
 
@@ -76,19 +97,23 @@ Resumo do commit:
 
 ---
 
-## 📆 Requisitos
+
+## � Dependências/Requisitos
 
 - Python 3.7+
-- Git instalado e configurado no ambiente
-- Tkinter (já incluído com o Python em Windows/macOS/Linux)
+- Git instalado e configurado
+- Tkinter (já incluso na maioria dos sistemas)
+- As dependências de IA (transformers, torch, sentencepiece) são instaladas automaticamente ao rodar os scripts pela primeira vez.
 
 ---
+
 
 ## 📌 Observações
 
 - A análise considera apenas arquivos já adicionados (`staged`)
 - Não envia dados para nenhuma API externa
 - Pode ser integrado com hooks do Git (ex: `prepare-commit-msg`)
+- O resumo IA é totalmente local e opcional (pode ser removido ou ajustado no código)
 
 ---
 
@@ -105,4 +130,4 @@ chmod +x .git/hooks/prepare-commit-msg
 
 ## 📜 Licença
 
-MIT © 2025 — SeuNomeAqui
+MIT © 2025 — devs café community
