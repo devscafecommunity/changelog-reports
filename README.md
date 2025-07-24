@@ -98,15 +98,38 @@ Resumo do commit:
 ---
 
 
-## � Dependências/Requisitos
 
-- Python 3.7+
-- Git instalado e configurado
-- Tkinter (já incluso na maioria dos sistemas)
-- As dependências de IA (transformers, torch, sentencepiece) são instaladas automaticamente ao rodar os scripts pela primeira vez.
+
+## 📦 Dependências/Requisitos
+
+- **Software:**
+  - Python 3.7+
+  - Git instalado e configurado
+  - Tkinter (já incluso na maioria dos sistemas)
+  - Recomendado: instalar as dependências com o comando abaixo (no ambiente virtual):
+    ```bash
+    pip install -r requirements.txt
+    ```
+  - As dependências de IA (transformers, torch, sentencepiece) e testes (pytest) estão listadas no `requirements.txt`.
+
+- **Hardware mínimo recomendado:**
+  - 2 GB de RAM (mínimo absoluto para uso básico)
+  - 4 GB de RAM ou mais recomendado para uso confortável com IA local (T5)
+  - CPU dual-core ou superior
+  - Espaço em disco: ~500 MB livres (incluindo modelo T5)
+  - Não é necessário GPU, mas acelera a geração de resumos se disponível
 
 ---
 
+
+
+## ♻️ Atualização e Instalação
+
+Sempre que atualizar o projeto, recomenda-se rodar:
+```bash
+pip install -r requirements.txt
+```
+para garantir que todas as dependências estejam corretas.
 
 ## 📌 Observações
 
