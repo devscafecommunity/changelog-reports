@@ -1,3 +1,4 @@
+from transformers import T5ForConditionalGeneration, T5Tokenizer
 
 import subprocess
 import os
@@ -36,6 +37,23 @@ def summarize_changes(files):
     return summary
 
 def generate_report():
+    # Função para gerar resumo automático usando flan-t5-small
+    def gerar_resumo_t5(texto):
+        model_dir = str(Path(__file__).parent / 'model' / 'flan-t5-small')
+        tokenizer = T5Tokenizer.from_pretrained(model_dir)
+        model = T5ForConditionalGeneration.from_pretrained(model_dir)
+        prompt = f"summarize: {texto}"
+        inputs = tokenizer(prompt, return_tensors="pt", max_length=512, truncation=True)
+        summary_ids = model.generate(
+            inputs.input_ids,
+            attention_mask=inputs.attention_mask,
+            max_new_tokens=60,
+            num_beams=4,
+            length_penalty=2.0,
+            early_stopping=True,
+            no_repeat_ngram_size=3
+        )
+        return tokenizer.decode(summary_ids[0], skip_special_tokens=True)
     cwd = Path.cwd()
     log_dir = cwd / 'logs'
     log_dir.mkdir(exist_ok=True)
@@ -58,6 +76,7 @@ def generate_report():
     commit_lines = []
     table = ["| Arquivo | Tipo |", "|---|---|"]
 
+    diff_textos = []
     for status, file_path in files:
         suffix = Path(file_path).suffix
         if status == 'A': tipo = 'Adicionado'
@@ -68,10 +87,17 @@ def generate_report():
             diff = get_file_diff(file_path)
             changelog.append(f"## {file_path}\n\n```diff\n{diff}\n```")
             commit_lines.append(f"{tipo} {file_path}")
+            diff_textos.append(f"{tipo} {file_path}: {diff[:200]}")  # Limita o diff para o resumo
         else:
             changelog.append(f"## {file_path} (binário ou não analisável)\n")
             commit_lines.append(f"Alteração em {file_path} (binário)")
+            diff_textos.append(f"{tipo} {file_path} (binário)")
         table.append(f"| `{file_path}` | {tipo} |")
+
+    # Gera resumo automático se houver alterações
+    if diff_textos:
+        resumo_ia = gerar_resumo_t5("\n".join(diff_textos))
+        changelog.insert(1, f"**Resumo IA (T5):** {resumo_ia}\n")
 
     changelog.insert(4, f"**Total de arquivos alterados:** {len(files)}\n")
     changelog.insert(5, '\n'.join(table) + '\n')
